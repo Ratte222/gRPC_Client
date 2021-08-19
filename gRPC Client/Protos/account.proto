@@ -1,0 +1,26 @@
+﻿syntax = "proto3";
+//https://cloud.google.com/apis/design/errors#error_model
+//https://github.com/googleapis/googleapis/blob/master/google/rpc/status.proto
+//import "google/rpc/status.proto";
+
+option csharp_namespace = "GrpcService";
+
+
+package account;
+
+service Account {
+  rpc Login (LoginRequest) returns (LoginReply);
+}
+
+message LoginRequest
+{
+	string EmailOrUserName = 1;
+	string Password = 2;
+}
+
+message LoginReply
+{
+	//Status Errore = 1;
+	string UserName = 2;
+	string Token = 3;
+}

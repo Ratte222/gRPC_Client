@@ -1,0 +1,64 @@
+﻿syntax = "proto3";
+
+import "google/protobuf/wrappers.proto";
+
+option csharp_namespace = "GrpcService";
+
+package product;
+
+// The greeting service definition.
+service Product {
+  // Sends a greeting
+  rpc GetProduct (ProductRequest) returns (ProductProto);
+  rpc GetProducts (ProductsRequest) returns (ProductsReply);
+  rpc CreateProduct (NewProductProto) returns (StringReply);
+  rpc EditProduct (ProductProto) returns (StringReply);
+  rpc DeleteProduct (ProductRequest) returns (StringReply);
+}
+
+// The request message containing the user's name.
+message ProductRequest {
+  int64 productId = 1;
+}
+
+// The response message containing the greetings.
+message ProductProto {
+  int64 Id = 1;
+  string Name = 2;
+  string Description = 3;
+  double Cost = 4;
+}
+
+message ProductsRequest {
+//int?
+  google.protobuf.Int32Value pageLength = 1;
+  google.protobuf.Int32Value pageNumber = 2; 
+  string fieldOrderBy = 3;
+  google.protobuf.BoolValue orderByDescending = 4;
+}
+
+message ProductsReply {
+  PageResponse PageResponse = 1;
+  repeated ProductProto Products = 2; 
+}
+
+message NewProductProto
+{
+  string Name = 1;
+  string Description = 2;
+  double Cost = 3;
+}
+
+message StringReply
+{
+	string Message = 1;
+}
+
+message PageResponse
+{
+  int32 PageLength = 1;
+  int32 PageNumber = 2;
+  int32 TotalItems = 3;
+  int32 TotalPages = 4;
+  int32 ItemCount = 5;
+}
