@@ -10,6 +10,7 @@ package account;
 
 service Account {
   rpc Login (LoginRequest) returns (LoginReply);
+  rpc Registration(RegistrationRequest) returns (RegistrationReply);
 }
 
 message LoginRequest
@@ -20,7 +21,21 @@ message LoginRequest
 
 message LoginReply
 {
-	//Status Errore = 1;
+	//google.rpc.Status Errore = 1;
 	string UserName = 2;
 	string Token = 3;
+}
+
+message RegistrationRequest
+{
+	string FirstName = 1;
+	string LastName = 2;
+	string UserName = 3;
+	string Email = 4;
+	string Password = 5;
+}
+
+message RegistrationReply
+{
+	string Message = 1;
 }

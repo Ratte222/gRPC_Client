@@ -12,6 +12,7 @@ namespace gRPC_Client
     {
         static async Task Main(string[] args)
         {
+            //await Registration();
             string _token = await AccountRequests();
             if (String.IsNullOrEmpty(_token))
                 throw new Exception();
@@ -37,6 +38,23 @@ namespace gRPC_Client
             await ProductRequests(channel);
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
+        }
+
+        private static async Task<string> Registration()
+        {
+            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
+            var client = new Account.AccountClient(channel);
+            var reply = await client.RegistrationAsync(
+                              new RegistrationRequest
+                              {
+                                  FirstName = "Dima",
+                                  LastName = "Gold",
+                                  UserName = "GD1955",
+                                  Email = "GD1955@gmail.com",
+                                  Password = "aZ12345678*"
+                              });
+            Console.WriteLine($"message: {reply.Message}");
+            return reply.Message;
         }
 
         private static async Task<string> AccountRequests()
