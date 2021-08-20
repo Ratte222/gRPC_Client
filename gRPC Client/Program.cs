@@ -2,7 +2,6 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Grpc.Net.Client;
-using GrpcService;
 using gRPC_Client.Clients;
 using Grpc.Core;
 
@@ -12,8 +11,9 @@ namespace gRPC_Client
     {
         static async Task Main(string[] args)
         {
-            //await Registration();
-            string _token = await AccountRequests();
+            AccountClient accountClient = new AccountClient();
+            //await accountClient.Registration();
+            string _token = await accountClient.AccountRequests();
             if (String.IsNullOrEmpty(_token))
                 throw new Exception();
             var credentials = CallCredentials.FromInterceptor((context, metadata) =>
@@ -28,45 +28,28 @@ namespace gRPC_Client
             // The port number(5001) must match the port of the gRPC server.
             using var channel = GrpcChannel.ForAddress("https://localhost:5001", new GrpcChannelOptions
             {
-                Credentials = ChannelCredentials.Create(new SslCredentials(), credentials)
+                Credentials = ChannelCredentials.Create(new SslCredentials(), credentials),
+                MaxReceiveMessageSize = 5 * 1024 * 1024, // 5 MB
+                MaxSendMessageSize = 5 * 1024 * 1024 // 5 MB
             });
             var client = new Greeter.GreeterClient(channel);
             var reply = await client.SayHelloAsync(
                               new HelloRequest { Name = "GreeterClient" });
             Console.WriteLine("Greeting: " + reply.Message);
             
-            await ProductRequests(channel);
+            //FileTransferClient fileTransferClient = new FileTransferClient(channel);
+            //await fileTransferClient.GetFile();
+            
+            ProductPhotoClient productPhotoClient = new ProductPhotoClient(channel);
+            await productPhotoClient.AddPhoto();
+            //await ProductRequests(channel);
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
         }
 
-        private static async Task<string> Registration()
-        {
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var client = new Account.AccountClient(channel);
-            var reply = await client.RegistrationAsync(
-                              new RegistrationRequest
-                              {
-                                  FirstName = "Dima",
-                                  LastName = "Gold",
-                                  UserName = "GD1955",
-                                  Email = "GD1955@gmail.com",
-                                  Password = "aZ12345678*"
-                              });
-            Console.WriteLine($"message: {reply.Message}");
-            return reply.Message;
-        }
+        
 
-        private static async Task<string> AccountRequests()
-        {
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var client = new Account.AccountClient(channel);
-            var reply = await client.LoginAsync(
-                              new LoginRequest { EmailOrUserName = "NBA",
-                              Password = "aZ12345678*" });
-            Console.WriteLine($"Login userName: {reply.UserName}");
-            return reply.Token;
-        }
+        
 
         private static async Task ProductRequests(GrpcChannel channel)
         {

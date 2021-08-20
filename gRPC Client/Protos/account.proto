@@ -1,16 +1,18 @@
 ﻿syntax = "proto3";
 //https://cloud.google.com/apis/design/errors#error_model
 //https://github.com/googleapis/googleapis/blob/master/google/rpc/status.proto
-//import "google/rpc/status.proto";
+import "Protos/status.proto";
+//import "Protos/common.proto";
+//import "Grpc/core/status.proto";
 
-option csharp_namespace = "GrpcService";
+option csharp_namespace = "gRPC_Client";
 
 
 package account;
 
 service Account {
   rpc Login (LoginRequest) returns (LoginReply);
-  rpc Registration(RegistrationRequest) returns (RegistrationReply);
+  rpc Registration(RegistrationRequest) returns (status.Status);
 }
 
 message LoginRequest
@@ -21,7 +23,7 @@ message LoginRequest
 
 message LoginReply
 {
-	//google.rpc.Status Errore = 1;
+	status.Status Status = 1;
 	string UserName = 2;
 	string Token = 3;
 }
@@ -35,7 +37,3 @@ message RegistrationRequest
 	string Password = 5;
 }
 
-message RegistrationReply
-{
-	string Message = 1;
-}

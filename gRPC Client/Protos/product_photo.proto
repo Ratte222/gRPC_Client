@@ -1,0 +1,26 @@
+﻿syntax = "proto3";
+
+import "Protos/status.proto";
+import "Protos/file.proto";
+
+option csharp_namespace = "gRPC_Client";
+
+package product_photo;
+
+
+service ProductPhotoProtoService {  
+    rpc GetPhoto(GetPhotoRequest) returns (stream file.ChunkMsg);
+    rpc AddPhoto(stream AddPhotoRequest) returns (status.Status);
+}  
+
+
+message GetPhotoRequest {
+    int64 PhotoId = 1;
+    string FileName = 2;
+}
+
+message AddPhotoRequest
+{
+    file.ChunkMsg ChungMsg = 1;
+    int64 ProductId = 2;
+}

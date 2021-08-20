@@ -6,9 +6,7 @@
     <RootNamespace>gRPC_Client</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Protos\account.proto" />
-  </ItemGroup>
+  
 
   <ItemGroup>
     <PackageReference Include="Google.Protobuf" Version="3.17.3" />
@@ -18,8 +16,15 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <Protobuf Include="Protos\greet.proto" GrpcServices="Client" />
+    <Protobuf Include="Protos\file.proto" GrpcServices="Client" />
     <Protobuf Include="Protos\account.proto" GrpcServices="Client" />
     <Protobuf Include="Protos\product.proto" GrpcServices="Client" />
+    <Protobuf Include="Protos\product_photo.proto" GrpcServices="Client" />
+    <Protobuf Include="Protos\status.proto" GrpcServices="None" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Temp\" />
   </ItemGroup>
 
 </Project>

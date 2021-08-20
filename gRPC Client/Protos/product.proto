@@ -1,8 +1,9 @@
 ﻿syntax = "proto3";
 
 import "google/protobuf/wrappers.proto";
+import "Protos/status.proto";
 
-option csharp_namespace = "GrpcService";
+option csharp_namespace = "gRPC_Client";
 
 package product;
 
@@ -11,9 +12,9 @@ service Product {
   // Sends a greeting
   rpc GetProduct (ProductRequest) returns (ProductProto);
   rpc GetProducts (ProductsRequest) returns (ProductsReply);
-  rpc CreateProduct (NewProductProto) returns (StringReply);
-  rpc EditProduct (ProductProto) returns (StringReply);
-  rpc DeleteProduct (ProductRequest) returns (StringReply);
+  rpc CreateProduct (NewProductProto) returns (status.Status);
+  rpc EditProduct (ProductProto) returns (status.Status);
+  rpc DeleteProduct (ProductRequest) returns (status.Status);
 }
 
 // The request message containing the user's name.
@@ -41,17 +42,12 @@ message ProductsReply {
   PageResponse PageResponse = 1;
   repeated ProductProto Products = 2; 
 }
-
+//https://stackoverflow.com/questions/10235854/how-to-serialize-net-exceptions-using-protobuf-net
 message NewProductProto
 {
   string Name = 1;
   string Description = 2;
   double Cost = 3;
-}
-
-message StringReply
-{
-	string Message = 1;
 }
 
 message PageResponse
