@@ -2,6 +2,7 @@
 
 import "google/protobuf/wrappers.proto";
 import "Protos/status.proto";
+import "Protos/product_photo.proto";
 
 option csharp_namespace = "gRPC_Client";
 
@@ -28,6 +29,7 @@ message ProductProto {
   string Name = 2;
   string Description = 3;
   double Cost = 4;
+  repeated product_photo.ProductPhotosProto ProductPhotos = 5;
 }
 
 message ProductsRequest {

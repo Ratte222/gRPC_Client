@@ -24,3 +24,10 @@ message AddPhotoRequest
     file.ChunkMsg ChungMsg = 1;
     int64 ProductId = 2;
 }
+
+message ProductPhotosProto
+{
+    int64 Id = 1;
+    string Name = 2;
+    int64 ProductId = 3;
+}

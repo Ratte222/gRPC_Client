@@ -36,6 +36,10 @@ namespace gRPC_Client.Clients
             {
                 Console.WriteLine($"Product: {res.Id}, {res.Name}, " +
                 $"{res.Description}, {res.Cost}");
+                foreach(var value in res.ProductPhotos)
+                {
+                    Console.WriteLine($"\tPhoto: id = {value.Id}, name: {value.Name}");
+                }
             }
             return replyProducts;
         }

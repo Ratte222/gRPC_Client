@@ -36,13 +36,16 @@ namespace gRPC_Client
             var reply = await client.SayHelloAsync(
                               new HelloRequest { Name = "GreeterClient" });
             Console.WriteLine("Greeting: " + reply.Message);
+
+            await ProductRequests(channel);
             
-            //FileTransferClient fileTransferClient = new FileTransferClient(channel);
+            FileTransferClient fileTransferClient = new FileTransferClient(channel);
             //await fileTransferClient.GetFile();
             
             ProductPhotoClient productPhotoClient = new ProductPhotoClient(channel);
-            await productPhotoClient.AddPhoto();
-            //await ProductRequests(channel);
+            //await productPhotoClient.AddPhoto();
+            await productPhotoClient.GetPhoto();
+
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
         }
